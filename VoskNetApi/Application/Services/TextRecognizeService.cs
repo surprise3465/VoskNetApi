@@ -38,10 +38,9 @@ namespace VoskNetApi.Application.Services
             {
                 Result = results,
                 Text = text,
-                Str = text.Replace(" ","")
+                Str = GetSubSentences(results)
             };
         }
-
 
         public string GetSubRip(List<Result> results)
         {
@@ -59,6 +58,43 @@ namespace VoskNetApi.Application.Services
 
         }
 
+        public string GetSubSentences(List<Result> results)
+        {
+            try
+            {
+                string output = string.Empty;
+                var index = 1;
+                if(results.Count == 0)
+                {
+                    return output;
+                }
+                else if(results.Count >= 1)
+                {
+                    output = $"{index} {TimeSpan.FromMilliseconds(results[0].Start * 1000):hh\\:mm\\:ss\\,fff} {results[0].Word}";
+
+                    for(int i = 1; i < results.Count; i++)
+                    {                       
+                        if (results[i].Start - results[i - 1].End < 0.4)
+                        {
+                            output += results[i].Word;
+                        }
+                        else
+                        {
+                            index++;
+                            string newline = $"{index} {TimeSpan.FromMilliseconds(results[i].Start * 1000):hh\\:mm\\:ss\\,fff} {results[i].Word}";
+                            output += "\r\n" + newline;
+                        }
+                    }
+                }
+
+                return output;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
         private static IEnumerable<IEnumerable<T>> SplitByChunks<T>(IEnumerable<T> source, int chunkSize)
         {
             if (chunkSize < 1)
@@ -67,11 +103,11 @@ namespace VoskNetApi.Application.Services
             IEnumerator<T> enumerator = source.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                yield return getChunk(enumerator, chunkSize);
+                yield return GetChunk(enumerator, chunkSize);
             }
         }
 
-        private static IEnumerable<T> getChunk<T>(IEnumerator<T> enumerator, int chunkSize)
+        private static IEnumerable<T> GetChunk<T>(IEnumerator<T> enumerator, int chunkSize)
         {
             int count = 0;
             do
