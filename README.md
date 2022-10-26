@@ -1,5 +1,9 @@
-### 基于VOSK离线语音识别的.Net Core Server
+### 基于VOSK的离线中文语音识别的.Net Core Server
 ---
+
+## 基本
+本地Asp.Net Core WebApi, 上传文件进行语音识别，自带中文小模型，可替换其他语言模型。
+
 ## Vosk
 [Vosk说明](https://alphacephei.com/vosk/index.zh)
 
@@ -9,7 +13,6 @@
 [通用Speaker模型](https://alphacephei.com/vosk/models/vosk-model-spk-0.4.zip)
 
 ## 代码参考
-
 Service部分大量参考（抄自） https://github.com/DimQ1/vosk-http-server
 
 ## TBD
