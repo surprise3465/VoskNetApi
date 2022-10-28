@@ -24,3 +24,7 @@ Service部分大量参考（抄自） https://github.com/DimQ1/vosk-http-server
 或替换工程里的Textmodel文件夹，将内容设为始终复制。
 
 CN的大模型需要较大内存。
+
+## 效果
+启动后端服务，访问/Recongnize接口，Post语音文件，然后耐心等待
+![Demo](Demo.PNG)
